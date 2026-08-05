@@ -12,10 +12,16 @@ async function main() {
 
   const users = [
     // no spots
-    { email: "u1@example.com", firstName: "User", lastName: "One" },
+    {
+      email: "u1@example.com",
+      password: "password1",
+      firstName: "User",
+      lastName: "One",
+    },
     // single spot
     {
       email: "u2@example.com",
+      password: "password2",
       firstName: "User",
       lastName: "Two",
       spots: {
@@ -27,6 +33,7 @@ async function main() {
     // multiple spots
     {
       email: "u3@example.com",
+      password: "password3",
       firstName: "User",
       lastName: "Three",
       spots: {
@@ -38,10 +45,11 @@ async function main() {
       },
     },
     // no name, no spots
-    { email: "u4@example.com" },
+    { email: "u4@example.com", password: "password4" },
     // many spots
     {
       email: "u5@example.com",
+      password: "password5",
       firstName: "Fiona",
       lastName: "Five",
       spots: {
@@ -56,15 +64,17 @@ async function main() {
     // single spot, optional fields missing
     {
       email: "u6@example.com",
+      password: "password6",
       spots: {
         create: [{ title: "Field", latitude: 48.8566, longitude: 2.3522 }],
       },
     },
     // no spots
-    { email: "u7@example.com", firstName: "Seven" },
+    { email: "u7@example.com", password: "password7", firstName: "Seven" },
     // one spot
     {
       email: "u8@example.com",
+      password: "password8",
       firstName: "Eight",
       spots: {
         create: [{ title: "Dock", latitude: 37.7749, longitude: -122.4194 }],
@@ -73,6 +83,7 @@ async function main() {
     // multiple spots
     {
       email: "u9@example.com",
+      password: "password9",
       firstName: "Nine",
       spots: {
         create: [
