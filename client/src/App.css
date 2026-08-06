@@ -1,0 +1,54 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  display: flex;
+  background: floralwhite;
+  flex-direction: column;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+}
+
+.header,
+.footer {
+  min-height: 60px;
+  border: 1px solid black;
+}
+
+.main-content {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+  width: 320px;
+  align-items: stretch;
+  padding: 32px;
+}
+
+.login-form .field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.login-form .signup-button {
+  outline: none;
+  background: none;
+  padding: 16px;
+  border: none;
+  box-shadow: none;
+  background-color: aliceblue;
+}
+
+.login-form input {
+  padding: 8px;
+}
