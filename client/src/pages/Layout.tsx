@@ -1,4 +1,5 @@
 import React from "react";
+import Header from "../components/Header";
 
 type Props = {
   children?: React.ReactNode;
@@ -7,7 +8,7 @@ type Props = {
 const Layout = ({ children }: Props) => {
   return (
     <>
-      <header className="header">App header</header>
+      <Header />
       <main className="main-content">{children}</main>
       <footer className="footer">App footer</footer>
     </>

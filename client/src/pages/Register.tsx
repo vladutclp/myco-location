@@ -1,19 +1,27 @@
-import React from "react";
 import { NavLink } from "react-router";
 
+export const BASE_API = "http://localhost:8080/api";
+
 const Register = () => {
-  console.log("component rendering");
+  const registerUser = async (formData: any) => {
+    fetch(`${BASE_API}/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+  };
+
   return (
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
       <form
-        onSubmit={(event) => {
+        onSubmit={async (event) => {
           const data = new FormData(event.target);
           event.preventDefault();
-          //Register user logic
-          console.log("data", Object.fromEntries(data.entries()));
-          event.currentTarget.reset();
+          await registerUser(Object.fromEntries(data));
         }}
         className="login-form"
       >
