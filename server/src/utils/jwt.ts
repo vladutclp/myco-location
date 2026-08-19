@@ -1,7 +1,7 @@
 import { SignJWT, type JWTPayload, jwtVerify } from "jose";
 import { createSecretKey } from "crypto";
 
-interface JwtPayload extends JWTPayload {
+export interface JwtPayload extends JWTPayload {
   id: number;
   email: string;
 }
@@ -21,5 +21,5 @@ export const verifyToken = async (token: string) => {
   const secretKey = createSecretKey(SECRET, "utf-8");
   const { payload } = await jwtVerify(token, secretKey);
 
-  return payload;
+  return payload as JwtPayload;
 };
