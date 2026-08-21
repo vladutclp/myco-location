@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Spots from "./pages/Spots";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import useSessionToken from "./hooks/useSessionToken";
+import NewSpot from "./pages/NewSpot";
 function App() {
   useSessionToken();
   return (
@@ -17,7 +18,7 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route element={<ProtectedRoute />}>
           <Route path="spots" element={<Spots />} />
-          <Route path="new-spot" element={<div>New spot component</div>} />
+          <Route path="new-spot" element={<NewSpot />} />
         </Route>
         <Route path="*" element={<div>Sorry, this route does not exist</div>} />
       </Routes>
