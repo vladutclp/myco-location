@@ -1,24 +1,25 @@
 import { Router } from "express";
 import { authenticateToken } from "../middleware/auth.ts";
+import {
+  createSpot,
+  deleteSpot,
+  getAllSpots,
+  getSpotById,
+  updateSpot,
+} from "../controllers/spotsController.ts";
 
 const router = Router();
 
 router.use(authenticateToken);
 
-router.get("/", (req, res) => {
-  res.send("Get all spots");
-});
+router.get("/", getAllSpots);
 
-router.get("/:id", (req, res) => {
-  res.send("Get a specific spot");
-});
+router.get("/:id", getSpotById);
 
-router.post("/", (req, res) => {
-  res.send("Create new spot");
-});
+router.post("/", createSpot);
 
-router.post("/:id", (req, res) => {
-  res.send("Delete spot");
-});
+router.delete("/:id", deleteSpot);
+
+router.patch("/:id", updateSpot);
 
 export default router;
