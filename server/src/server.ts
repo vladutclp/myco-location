@@ -6,11 +6,13 @@ import "dotenv/config";
 import usersRouter from "./routes/userRoutes.ts";
 import authRoutes from "./routes/authRoutes.ts";
 import spotsRoutes from "./routes/spotsRoutes.ts";
+import compression from "compression";
 import helmet from "helmet";
 
 export const PORT = 8080;
 const app: Express = express();
 
+app.use(compression());
 app.use(helmet());
 app.use(morgan("combined"));
 app.use(express.json());

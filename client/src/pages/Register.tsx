@@ -1,6 +1,6 @@
 import { NavLink } from "react-router";
 
-export const BASE_API = "http://localhost:8080/api";
+export const BASE_API = import.meta.env.VITE_API_BASE_URL;
 
 const Register = () => {
   const registerUser = async (formData: any) => {
