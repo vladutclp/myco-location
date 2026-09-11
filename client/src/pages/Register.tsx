@@ -1,10 +1,16 @@
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
+import { useAuth } from "../store/auth-context";
+import { useState } from "react";
 
 export const BASE_API = import.meta.env.VITE_API_BASE_URL;
 
 const Register = () => {
+  const { setIsUserLoggedIn } = useAuth();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState("");
   const registerUser = async (formData: any) => {
-    fetch(`${BASE_API}/auth/register`, {
+    return fetch(`${BASE_API}/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -12,16 +18,42 @@ const Register = () => {
       body: JSON.stringify(formData),
     });
   };
-
+  console.log("isError: ", isError);
+  console.log("typeof isError: ", typeof isError);
   return (
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
       <form
         onSubmit={async (event) => {
+          setIsLoading(true);
           const data = new FormData(event.target);
           event.preventDefault();
-          await registerUser(Object.fromEntries(data));
+          registerUser(Object.fromEntries(data))
+            .then(async (response) => {
+              const body = await response.json();
+              if (!response.ok) {
+                throw new Error(body.message ?? "Registration failed");
+              }
+              return body;
+            })
+            .then((data) => {
+              console.log("parsed data: ", data);
+              if ("token" in data && data.token !== undefined) {
+                sessionStorage.setItem("token", data.token);
+                setIsUserLoggedIn(true);
+                setIsLoading(false);
+                navigate("/");
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+              setIsLoading(false);
+              setIsError(error);
+            })
+            .finally(() => {
+              setIsLoading(false);
+            });
         }}
         className="login-form"
       >
@@ -33,7 +65,10 @@ const Register = () => {
           <label htmlFor="password">Password</label>
           <input required name="password" id="password" type="password" />
         </div>
-        <button className="signup-button">Sign Up</button>
+        <button disabled={isLoading} className="signup-button">
+          Sign Up
+        </button>
+        {isError ? <span>Something went wrong</span> : null}
       </form>
       <div>
         Already have an account? <NavLink to={"/login"}>Sign In</NavLink>
