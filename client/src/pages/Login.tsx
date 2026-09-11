@@ -1,11 +1,13 @@
 import { NavLink, useNavigate } from "react-router";
 import { BASE_API } from "./Register";
 import { useAuth } from "../store/auth-context";
+import { useState } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
   const { setIsUserLoggedIn } = useAuth();
-
+  const [isLoading, setIsLoading] = useState(false);
+  
   const loginUser = async (formData: any) => {
     const loginData = fetch(`${BASE_API}/auth/login`, {
       method: "POST",
@@ -15,16 +17,27 @@ const Login = () => {
       body: JSON.stringify(formData),
     });
     return loginData
-      .then((data) => data.json())
+      .then(async (response) => {
+        const body = await response.json();
+        if (!response.ok) {
+          throw new Error(body.message ?? "Something went wrong");
+        }
+
+        return body;
+      })
       .then((data) => {
         if ("token" in data && data.token !== undefined) {
           sessionStorage.setItem("token", data.token);
           setIsUserLoggedIn(true);
           navigate("/");
+          setIsLoading(false);
         }
         return data;
       })
-      .catch((e) => console.error(e));
+      .catch((e) => console.error(e))
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -33,6 +46,7 @@ const Login = () => {
     >
       <form
         onSubmit={async (event) => {
+          setIsLoading(true);
           const data = new FormData(event.target);
           event.preventDefault();
           const loginData = await loginUser(Object.fromEntries(data));
@@ -48,7 +62,9 @@ const Login = () => {
           <label htmlFor="password">Password</label>
           <input required name="password" id="password" type="password" />
         </div>
-        <button className="signup-button">Sign In</button>
+        <button disabled={isLoading} className="signup-button">
+          Sign In
+        </button>
       </form>
       <div>
         Don't have an account? <NavLink to={"/register"}>Sign Up</NavLink>
