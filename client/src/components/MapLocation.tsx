@@ -1,6 +1,6 @@
 import { LatLng } from "leaflet";
 import { Marker as LeafletMarker } from "leaflet";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Marker, useMap } from "react-leaflet";
 
 export type BasePoint = Pick<LatLng, "lat" | "lng">;

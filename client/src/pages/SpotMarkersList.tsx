@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Marker, Popup, useMap } from "react-leaflet";
 import type { Spots } from "./Spots";
 
