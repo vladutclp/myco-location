@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 body {
   margin: 0;
   padding: 0;
@@ -5,23 +6,37 @@ body {
 
 #root {
   display: flex;
-  background: floralwhite;
+  background: #f8faf7;
   flex-direction: column;
   height: 100dvh;
   margin: 0;
   padding: 0;
+  font-family: "Roboto", sans-serif;
+
+  --color-primary: #1b6e4b;
 }
 
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
+  text-decoration: none;
+  gap: 16px;
+  font-weight: 400;
+  padding: 0.5rem 3rem;
+  color: var(--color-primary);
+}
+
+.header a {
+  text-decoration: none;
+  /* color: var(--color-primary); */
 }
 
 .header,
 .footer {
   min-height: 60px;
-  border: 1px solid black;
+  border-bottom: 1px solid var(--color-primary);
+  border-top: 1px solid var(--color-primary);
 }
 
 .main-content {
@@ -47,15 +62,6 @@ body {
   gap: 8px;
 }
 
-.login-form .signup-button {
-  outline: none;
-  background: none;
-  padding: 16px;
-  border: none;
-  box-shadow: none;
-  background-color: aliceblue;
-}
-
 .login-form input {
   padding: 8px;
 }
@@ -71,6 +77,64 @@ body {
 
 .toast--exit {
   animation: slideOut 0.25s ease-out forwards;
+}
+
+.button {
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  font-weight: bold;
+  background-color: #ffffff;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  text-decoration: none;
+  text-align: center;
+}
+
+.button--primary {
+  color: white;
+  background-color: var(--color-primary);
+}
+
+.benefits-list {
+  list-style: none;
+  align-self: flex-start;
+  padding: 0;
+  color: initial;
+  font-weight: 400;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.benefit-item {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.home__hero-media {
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  /* border-radius: 16px; */
+}
+
+.home__hero-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 60%;
 }
 
 @keyframes slideIn {
