@@ -3,3 +3,4 @@ server/node_modules
 server/.agents/
 server/.claude/
 server/.windsurf/
+.DS_Store

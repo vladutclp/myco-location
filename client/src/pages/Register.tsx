@@ -56,6 +56,7 @@ const Register = () => {
         }}
         className="login-form"
       >
+        <h1>Create your account</h1>
         <div className="field-wrapper">
           <label htmlFor="email">E-mail</label>
           <input required name="email" id="email" type="email" />
@@ -64,7 +65,7 @@ const Register = () => {
           <label htmlFor="password">Password</label>
           <input required name="password" id="password" type="password" />
         </div>
-        <button disabled={isLoading} className="signup-button">
+        <button disabled={isLoading} className="button button--primary">
           Sign Up
         </button>
         {isError ? <span>Something went wrong</span> : null}
