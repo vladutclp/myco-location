@@ -49,7 +49,7 @@ const Login = () => {
           setIsLoading(true);
           const data = new FormData(event.target);
           event.preventDefault();
-          const loginData = await loginUser(Object.fromEntries(data));
+          await loginUser(Object.fromEntries(data));
         }}
         className="login-form"
       >
