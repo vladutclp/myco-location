@@ -1,8 +1,7 @@
 import { NavLink, useNavigate } from "react-router";
 import { useAuth } from "../store/auth-context";
 import { useState } from "react";
-
-export const BASE_API = import.meta.env.VITE_API_BASE_URL;
+import { BASE_API } from "../api/config";
 
 const Register = () => {
   const { setIsUserLoggedIn } = useAuth();
