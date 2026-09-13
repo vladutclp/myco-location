@@ -28,6 +28,7 @@ body {
   display: flex;
   flex-grow: 1;
   justify-content: center;
+  padding: 2rem;
 }
 
 .login-form {
@@ -57,4 +58,39 @@ body {
 
 .login-form input {
   padding: 8px;
+}
+
+.toast {
+  animation: slideIn 0.25s ease-in;
+  background-color: #2e6f40;
+  padding: 1rem;
+  font-weight: 300;
+  color: white;
+  border-radius: 10px;
+}
+
+.toast--exit {
+  animation: slideOut 0.25s ease-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
 }

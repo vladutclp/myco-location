@@ -1,13 +1,13 @@
 import { NavLink, useNavigate } from "react-router";
-import { BASE_API } from "./Register";
 import { useAuth } from "../store/auth-context";
 import { useState } from "react";
+import { BASE_API } from "../api/config";
 
 const Login = () => {
   const navigate = useNavigate();
   const { setIsUserLoggedIn } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const loginUser = async (formData: any) => {
     const loginData = fetch(`${BASE_API}/auth/login`, {
       method: "POST",
@@ -50,7 +50,6 @@ const Login = () => {
           const data = new FormData(event.target);
           event.preventDefault();
           const loginData = await loginUser(Object.fromEntries(data));
-          console.log("loginData: ", loginData);
         }}
         className="login-form"
       >
