@@ -14,9 +14,10 @@ jobs:
     strategy:
       matrix:
         node-version: [24.x]
-
+    defaults:
+      run:
+        working-directory: ./client
     steps:
-      - run: cd /client
       - uses: actions/checkout@v7
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
