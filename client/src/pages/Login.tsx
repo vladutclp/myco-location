@@ -5,7 +5,7 @@ import { BASE_API } from "../api/config";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setIsUserLoggedIn } = useAuth();
+  const { setAuthenticationStatus } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
   const loginUser = async (formData: any) => {
@@ -28,7 +28,7 @@ const Login = () => {
       .then((data) => {
         if ("token" in data && data.token !== undefined) {
           sessionStorage.setItem("token", data.token);
-          setIsUserLoggedIn(true);
+          setAuthenticationStatus("authenticated");
           navigate("/");
           setIsLoading(false);
         }

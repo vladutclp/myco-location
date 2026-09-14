@@ -137,6 +137,23 @@ body {
   object-position: center 60%;
 }
 
+input,
+textarea {
+  padding: 0.5rem 1rem;
+  color: #424942;
+}
+
+.new-spots-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.new-spots-input-wrapper label {
+  margin-bottom: px;
+}
+
 @keyframes slideIn {
   from {
     transform: translateY(100%);

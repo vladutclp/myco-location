@@ -17,7 +17,7 @@ export interface Spots {
 }
 
 const Spots = () => {
-  const { isLoggedIn } = useAuth();
+  const { authStatus } = useAuth();
   const [spots, setSpots] = useState<Spots[]>([]);
   const {
     dismissToast,
@@ -50,7 +50,7 @@ const Spots = () => {
     getSpots();
   }, []);
 
-  if (!isLoggedIn) {
+  if (authStatus === "unauthenticated") {
     return (
       <div>
         Please <NavLink to="/login">Log In</NavLink>
@@ -89,11 +89,25 @@ const Spots = () => {
         <SpotMarkersList spots={spots} />
       </MapContainer>
 
-      <ul>
+      <ul
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          gap: "16px",
+          flexDirection: "column",
+          listStyle: "none",
+        }}
+      >
         {spots.map((spot) => (
-          <li key={spot.id}>
-            {spot.title}
-            <button onClick={() => handleDeleteSpot(spot.id)}>x</button>
+          <li
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+            key={spot.id}
+          >
+            <span>{spot.title}</span>
+            <button onClick={() => handleDeleteSpot(spot.id)}>Delete</button>
           </li>
         ))}
       </ul>
