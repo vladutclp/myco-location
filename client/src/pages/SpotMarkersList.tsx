@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Marker, Popup, useMap } from "react-leaflet";
 import type { Spots } from "./Spots";
-import React from "react";
 
 interface Props {
   spots: Spots[];
