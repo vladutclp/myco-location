@@ -2,10 +2,10 @@ import { useAuth } from "../store/auth-context";
 import { NavLink } from "react-router";
 
 const Header = () => {
-  const { isLoggedIn, setIsUserLoggedIn } = useAuth();
+  const { authStatus, setAuthenticationStatus } = useAuth();
   return (
     <header className="header">
-      {!isLoggedIn ? (
+      {authStatus === "unauthenticated" ? (
         <NavLink className={"button button--primary"} to={"/login"}>
           Log In
         </NavLink>
@@ -15,9 +15,10 @@ const Header = () => {
           <NavLink to={"/spots"}>Spots</NavLink>
           <NavLink to={"/new-spot"}>New Spot</NavLink>
           <button
+            className="button"
             onClick={() => {
               sessionStorage.removeItem("token");
-              setIsUserLoggedIn(false);
+              setAuthenticationStatus("unauthenticated");
             }}
           >
             Log Out

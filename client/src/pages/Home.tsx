@@ -4,12 +4,11 @@ import { Link } from "react-router";
 import heroImage from "../../assets/hero.jpeg";
 
 const Home = () => {
-  const { isLoggedIn } = useAuth();
-  console.log("isLoggedIn: ", isLoggedIn);
-  return isLoggedIn ? (
-    <div>
+  const { authStatus } = useAuth();
+  console.log("isLoggedIn: ", authStatus);
+  return authStatus === "authenticated" ? (
+    <div style={{ color: "#1b6e4b" }}>
       <h1>Welcome to MycoLocation</h1>
-      <div>Hello user, you are logged in</div>
     </div>
   ) : (
     <div

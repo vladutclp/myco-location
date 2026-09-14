@@ -4,7 +4,7 @@ import { useState } from "react";
 import { BASE_API } from "../api/config";
 
 const Register = () => {
-  const { setIsUserLoggedIn } = useAuth();
+  const { setAuthenticationStatus } = useAuth();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState("");
@@ -40,7 +40,7 @@ const Register = () => {
               console.log("parsed data: ", data);
               if ("token" in data && data.token !== undefined) {
                 sessionStorage.setItem("token", data.token);
-                setIsUserLoggedIn(true);
+                setAuthenticationStatus("authenticated");
                 setIsLoading(false);
                 navigate("/");
               }

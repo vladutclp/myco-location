@@ -24,7 +24,7 @@ const ResetLocationButton = () => {
 };
 
 const NewSpot = () => {
-  const [userLocation, setUserLocation] = useState<BasePoint>();
+  const [, setUserLocation] = useState<BasePoint>();
   const [pinPosition, setPinPosition] = useState<BasePoint>();
   const {
     showToast,
@@ -40,6 +40,7 @@ const NewSpot = () => {
     const data = new FormData(event.target);
     const payload: AddNewSpotPayload = {
       title: data.get("spotName") as string,
+      observation: data.get("observation") as string,
       latitude: pinPosition?.lat!,
       longitude: pinPosition?.lng!,
     };
@@ -74,31 +75,44 @@ const NewSpot = () => {
         />
         <ResetLocationButton />
       </MapContainer>
-      <div>
-        Current user position: {userLocation?.lat} - {userLocation?.lng}
-      </div>
-      <div>
-        Current pin position: {pinPosition?.lat} - {pinPosition?.lng}
-      </div>
-      <label
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-        htmlFor="spotName"
-      >
-        Spot Name
-        <input required id="spotName" name="spotName" type="text" />
-      </label>
-      <button>Save Spot</button>
-      {isToastVisible && (
-        <ToastMessage
-          onAnimationEnd={handleOnAnimationEnd}
-          isToastExiting={isToastExiting}
+
+      <div className="new-spots-input-wrapper">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "8px",
+          }}
         >
-          Spot created
-        </ToastMessage>
-      )}
+          <label htmlFor="spotName">Spot Name</label>
+          <input
+            className="input"
+            required
+            id="spotName"
+            name="spotName"
+            type="text"
+          />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "8px",
+          }}
+        >
+          <label htmlFor="observation">Observation</label>
+          <textarea rows={5} id="observation" name="observation" />
+        </div>
+        <button className="button button--primary">Save Spot</button>
+        {isToastVisible && (
+          <ToastMessage
+            onAnimationEnd={handleOnAnimationEnd}
+            isToastExiting={isToastExiting}
+          >
+            Spot created
+          </ToastMessage>
+        )}
+      </div>
     </form>
   );
 };

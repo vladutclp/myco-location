@@ -2,14 +2,14 @@ import { useEffect } from "react";
 import { useAuth } from "../store/auth-context";
 
 const useSessionToken = () => {
-  const { setIsUserLoggedIn } = useAuth();
+  const { setAuthenticationStatus } = useAuth();
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     if (token) {
-      setIsUserLoggedIn(true);
+      setAuthenticationStatus("authenticated");
     } else {
-      setIsUserLoggedIn(false);
+      setAuthenticationStatus("unauthenticated");
     }
   }, []);
 };
