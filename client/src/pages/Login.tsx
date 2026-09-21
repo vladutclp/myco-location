@@ -3,12 +3,16 @@ import { useAuth } from "../store/auth-context";
 import { useState } from "react";
 import { BASE_API } from "../api/config";
 
+export type Status = "idle" | "loading" | "success" | "error";
+
 const Login = () => {
   const navigate = useNavigate();
   const { setAuthenticationStatus } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
-
+  const [status, setStatus] = useState<Status>("idle");
+  const isLoading = status === "loading";
+  const isError = status === "error";
   const loginUser = async (formData: any) => {
+    setStatus("loading");
     const loginData = fetch(`${BASE_API}/auth/login`, {
       method: "POST",
       headers: {
@@ -29,14 +33,17 @@ const Login = () => {
         if ("token" in data && data.token !== undefined) {
           sessionStorage.setItem("token", data.token);
           setAuthenticationStatus("authenticated");
+          setStatus("success");
           navigate("/");
-          setIsLoading(false);
+        } else {
+          setStatus("error");
         }
+
         return data;
       })
-      .catch((e) => console.error(e))
-      .finally(() => {
-        setIsLoading(false);
+      .catch((e) => {
+        setStatus("error");
+        console.error(e);
       });
   };
 
@@ -46,7 +53,6 @@ const Login = () => {
     >
       <form
         onSubmit={async (event) => {
-          setIsLoading(true);
           const data = new FormData(event.target);
           event.preventDefault();
           await loginUser(Object.fromEntries(data));
@@ -54,20 +60,36 @@ const Login = () => {
         className="login-form"
       >
         <h1>Sign in into your account</h1>
-        <div className="field-wrapper">
+        <div className="form-group">
           <label htmlFor="email">E-mail</label>
-          <input required name="email" id="email" type="email" />
+          <input
+            className="input input-error"
+            autoFocus
+            required
+            name="email"
+            id="email"
+            type="email"
+          />
         </div>
-        <div className="field-wrapper">
+        <div className="form-group">
           <label htmlFor="password">Password</label>
           <input required name="password" id="password" type="password" />
         </div>
-        <button disabled={isLoading} className="button button--primary">
-          Sign In
+        {isError && (
+          <span className="error-message">
+            Something went wrong, please try again
+          </span>
+        )}
+        <button
+          disabled={isLoading}
+          className={`button button--primary  ${isLoading ? "disabled" : ""}`}
+        >
+          {isLoading ? "Loading..." : "Log In"}
         </button>
       </form>
       <div>
-        Don't have an account? <NavLink to={"/register"}>Sign Up</NavLink>
+        Don't have an account?{" "}
+        <NavLink to={"/register"}>Create an account</NavLink>
       </div>
     </div>
   );
