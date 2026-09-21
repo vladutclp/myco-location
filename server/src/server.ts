@@ -8,6 +8,7 @@ import authRoutes from "./routes/authRoutes.ts";
 import spotsRoutes from "./routes/spotsRoutes.ts";
 import compression from "compression";
 import helmet from "helmet";
+import healthCheckRoutes from "./routes/healthCheckRoute.ts";
 
 export const PORT = 8080;
 const app: Express = express();
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+app.use("/api", healthCheckRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", usersRouter);
 app.use("/api/spots", spotsRoutes);
