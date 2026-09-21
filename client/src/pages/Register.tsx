@@ -2,13 +2,17 @@ import { NavLink, useNavigate } from "react-router";
 import { useAuth } from "../store/auth-context";
 import { useState } from "react";
 import { BASE_API } from "../api/config";
+import type { Status } from "./Login";
 
 const Register = () => {
   const { setAuthenticationStatus } = useAuth();
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState("");
+  const [status, setStatus] = useState<Status>("idle");
+  const isLoading = status === "loading";
+  const isError = status === "error";
+
   const registerUser = async (formData: any) => {
+    setStatus("loading");
     return fetch(`${BASE_API}/auth/register`, {
       method: "POST",
       headers: {
@@ -17,15 +21,13 @@ const Register = () => {
       body: JSON.stringify(formData),
     });
   };
-  console.log("isError: ", isError);
-  console.log("typeof isError: ", typeof isError);
+
   return (
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
       <form
         onSubmit={async (event) => {
-          setIsLoading(true);
           const data = new FormData(event.target);
           event.preventDefault();
           registerUser(Object.fromEntries(data))
@@ -41,34 +43,40 @@ const Register = () => {
               if ("token" in data && data.token !== undefined) {
                 sessionStorage.setItem("token", data.token);
                 setAuthenticationStatus("authenticated");
-                setIsLoading(false);
+                setStatus("loading");
                 navigate("/");
+              } else {
+                setStatus("error");
               }
             })
             .catch((error) => {
               console.log(error);
-              setIsLoading(false);
-              setIsError(error);
-            })
-            .finally(() => {
-              setIsLoading(false);
+              setStatus("error");
             });
         }}
         className="login-form"
       >
         <h1>Create your account</h1>
-        <div className="field-wrapper">
+        <div className="form-group">
           <label htmlFor="email">E-mail</label>
-          <input required name="email" id="email" type="email" />
+          <input autoFocus required name="email" id="email" type="email" />
         </div>
-        <div className="field-wrapper">
+        <div className="form-group">
           <label htmlFor="password">Password</label>
           <input required name="password" id="password" type="password" />
+          <span className="password-requirements">
+            Your password must be at least 6 characters
+          </span>
         </div>
-        <button disabled={isLoading} className="button button--primary">
-          Sign Up
+        <button
+          disabled={isLoading}
+          className={`button button--primary  ${isLoading ? "disabled" : ""}`}
+        >
+          Create account
         </button>
-        {isError ? <span>Something went wrong</span> : null}
+        {isError ? (
+          <span className="error-message">Something went wrong</span>
+        ) : null}
       </form>
       <div>
         Already have an account? <NavLink to={"/login"}>Sign In</NavLink>
