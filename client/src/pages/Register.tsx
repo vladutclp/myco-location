@@ -3,6 +3,12 @@ import { useAuth } from "../store/auth-context";
 import { useState } from "react";
 import { BASE_API } from "../api/config";
 import type { Status } from "./Login";
+import FormGroup from "../components/FormGroup/FormGroup";
+import Label from "../components/Label/Label";
+import Input from "../components/Input/Input";
+import Button from "../components/Button/Button";
+import AuthLayout from "../components/AuthLayout/AuthLayout";
+import styles from "../components/AuthLayout/Auth.module.css";
 
 const Register = () => {
   const { setAuthenticationStatus } = useAuth();
@@ -23,9 +29,7 @@ const Register = () => {
   };
 
   return (
-    <div
-      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-    >
+    <AuthLayout>
       <form
         onSubmit={async (event) => {
           const data = new FormData(event.target);
@@ -54,34 +58,44 @@ const Register = () => {
               setStatus("error");
             });
         }}
-        className="login-form"
+        className={styles.form}
       >
-        <h1>Create your account</h1>
-        <div className="form-group">
-          <label htmlFor="email">E-mail</label>
-          <input autoFocus required name="email" id="email" type="email" />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input required name="password" id="password" type="password" />
-          <span className="password-requirements">
-            Your password must be at least 6 characters
-          </span>
-        </div>
-        <button
-          disabled={isLoading}
-          className={`button button--primary  ${isLoading ? "disabled" : ""}`}
-        >
-          Create account
-        </button>
+        <h1 className={styles.formHeader}>Create your account</h1>
+        <hr style={{ width: "100%" }} />
+        <p>Never miss a spot</p>
+        <FormGroup>
+          <Label htmlFor="email">E-mail</Label>
+          <Input
+            autoFocus
+            required
+            name="email"
+            id="email"
+            type="email"
+            placeholder="you@email.com"
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="password">Password</Label>
+          <Input
+            placeholder="At least 6 characters"
+            required
+            name="password"
+            id="password"
+            type="password"
+          />
+        </FormGroup>
+        <Button disabled={isLoading}>Create account</Button>
         {isError ? (
           <span className="error-message">Something went wrong</span>
         ) : null}
       </form>
-      <div>
-        Already have an account? <NavLink to={"/login"}>Sign In</NavLink>
+      <div className={styles.formHint}>
+        Already have an account?{" "}
+        <NavLink className={styles.formHintLink} to={"/login"}>
+          Sign In
+        </NavLink>
       </div>
-    </div>
+    </AuthLayout>
   );
 };
 

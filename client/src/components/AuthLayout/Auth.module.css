@@ -1,0 +1,79 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-2) var(--space-8);
+  background-color: var(--color-surface);
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
+  position: relative;
+  margin-top: -32px;
+}
+
+.sheet {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero {
+  background-image:
+    linear-gradient(to bottom, transparent, rgb(0 0 0 / 60%)),
+    url("../../assets/hero.jpeg");
+  height: 100%;
+  width: 100%;
+  min-height: 30vh;
+  background-size: cover;
+  background-position: center;
+  /* position: relative; */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.heroHeading {
+  font-size: var(--font-size-headline);
+  font-weight: var(--font-weight-display);
+  color: var(--color-spore-white);
+  line-height: var(--line-height-headline);
+}
+
+.heroCaption {
+  color: var(--color-spore-white);
+}
+
+.heroTextWrapper {
+  /* position: absolute; */
+  padding: var(--space-2) var(--space-8);
+  justify-content: flex-end;
+  /* bottom: 0; */
+  margin-bottom: 48px;
+}
+
+.formHeader {
+  font-size: var(--font-size-headline);
+  font-weight: var(--font-weight-display);
+}
+
+.formSubheader {
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-title);
+  color: var(--color-text-secondary);
+}
+
+.formCaption {
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-caption);
+  color: var(--color-text-secondary);
+}
+
+.formHint {
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-body);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-4);
+  text-align: center;
+}
+
+.formHintLink {
+  font-weight: var(--font-weight-caption);
+}

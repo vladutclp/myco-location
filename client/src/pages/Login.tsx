@@ -2,6 +2,12 @@ import { NavLink, useNavigate } from "react-router";
 import { useAuth } from "../store/auth-context";
 import { useState } from "react";
 import { BASE_API } from "../api/config";
+import Button from "../components/Button/Button";
+import Input from "../components/Input/Input";
+import Label from "../components/Label/Label";
+import FormGroup from "../components/FormGroup/FormGroup";
+import AuthLayout from "../components/AuthLayout/AuthLayout";
+import styles from "../components/AuthLayout/Auth.module.css";
 
 export type Status = "idle" | "loading" | "success" | "error";
 
@@ -48,50 +54,58 @@ const Login = () => {
   };
 
   return (
-    <div
-      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-    >
+    <AuthLayout>
       <form
         onSubmit={async (event) => {
           const data = new FormData(event.target);
           event.preventDefault();
           await loginUser(Object.fromEntries(data));
         }}
-        className="login-form"
+        className={styles.form}
       >
-        <h1>Sign in into your account</h1>
-        <div className="form-group">
-          <label htmlFor="email">E-mail</label>
-          <input
-            className="input input-error"
+        <div>
+          <h1 className={styles.formHeader}>Welcome Back</h1>
+          <p className={styles.formSubheader}>YOUR FIELD NOTEBOOK</p>
+        </div>
+        <hr style={{ width: "100%" }} />
+        <p>Sign in to revisit your saved spots</p>
+        <FormGroup>
+          <Label htmlFor="email">Email</Label>
+          <Input
+            placeholder="you@example.com"
             autoFocus
             required
             name="email"
             id="email"
             type="email"
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input required name="password" id="password" type="password" />
-        </div>
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="password">Password</Label>
+          <Input
+            placeholder="At least 6 characters"
+            required
+            name="password"
+            id="password"
+            type="password"
+          />
+        </FormGroup>
         {isError && (
           <span className="error-message">
             Something went wrong, please try again
           </span>
         )}
-        <button
-          disabled={isLoading}
-          className={`button button--primary  ${isLoading ? "disabled" : ""}`}
-        >
-          {isLoading ? "Loading..." : "Log In"}
-        </button>
+        <Button disabled={isLoading}>
+          {isLoading ? "Loading..." : "Sign In"}
+        </Button>
       </form>
-      <div>
-        Don't have an account?{" "}
-        <NavLink to={"/register"}>Create an account</NavLink>
+      <div className={styles.formHint}>
+        New to MycoLocation?{" "}
+        <NavLink className={styles.formHintLink} to={"/register"}>
+          Create an account
+        </NavLink>
       </div>
-    </div>
+    </AuthLayout>
   );
 };
 
