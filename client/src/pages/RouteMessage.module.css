@@ -1,0 +1,16 @@
+.message {
+  width: min(100%, var(--prose-measure));
+  margin-inline: auto;
+  padding: var(--space-16) var(--page-gutter);
+  color: var(--color-text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.title {
+  margin-bottom: var(--space-4);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-headline);
+  font-weight: var(--font-weight-headline);
+  line-height: var(--line-height-headline);
+  letter-spacing: var(--letter-spacing-headline);
+}

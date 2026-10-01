@@ -6,6 +6,12 @@ import SpotMarkersList from "./SpotMarkersList";
 import ToastMessage from "../components/ToastMessage";
 import useToast from "../hooks/useToast";
 import { deleteSpot, getAllSpots } from "../api/spots";
+import Button from "../components/Button/Button";
+import Icon from "../components/Icon/Icon";
+import MapSheetLayout from "../components/MapSheetLayout/MapSheetLayout";
+import mapStyles from "../components/MapSheetLayout/MapSheetLayout.module.css";
+import buttonStyles from "../components/Button/Button.module.css";
+import styles from "./Spots.module.css";
 
 export interface Spots {
   id: number;
@@ -52,19 +58,13 @@ const Spots = () => {
 
   if (authStatus === "unauthenticated") {
     return (
-      <div>
+      <div className={styles.signInPrompt}>
         Please <NavLink to="/login">Log In</NavLink>
       </div>
     );
   }
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: "1rem",
-        flexDirection: "column",
-      }}
-    >
+    <div className={styles.page}>
       {isToastVisible && (
         <ToastMessage
           onAnimationEnd={handleOnAnimationEnd}
@@ -73,44 +73,62 @@ const Spots = () => {
           Spot Deleted Successfully
         </ToastMessage>
       )}
-      <MapContainer
-        style={{
-          height: "360px",
-          width: "400px",
-        }}
-        center={[51.505, -0.09]}
-        zoom={13}
-        scrollWheelZoom={false}
-      >
-        <TileLayer
-          attribution={`&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors`}
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <SpotMarkersList spots={spots} />
-      </MapContainer>
-
-      <ul
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: "16px",
-          flexDirection: "column",
-          listStyle: "none",
-        }}
-      >
-        {spots.map((spot) => (
-          <li
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-            key={spot.id}
+      <MapSheetLayout
+        map={
+          <MapContainer
+            className={mapStyles.map}
+            center={[51.505, -0.09]}
+            zoom={13}
+            scrollWheelZoom={false}
           >
-            <span>{spot.title}</span>
-            <button onClick={() => handleDeleteSpot(spot.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+            <TileLayer
+              attribution={`&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors`}
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <SpotMarkersList spots={spots} />
+          </MapContainer>
+        }
+      >
+        <header className={`${mapStyles.heading} ${styles.heading}`}>
+          <p className={mapStyles.caption}>Private field notebook</p>
+          <div className={mapStyles.titleRow}>
+            <h1 className={mapStyles.title}>Your spots</h1>
+            <span className={styles.count}>{spots.length} saved</span>
+          </div>
+        </header>
+        <ul className={styles.list}>
+          {spots.map((spot) => (
+            <li className={styles.spot} key={spot.id}>
+              <h2 className={styles.spotTitle}>{spot.title}</h2>
+              {spot.observation && (
+                <p className={styles.observation}>{spot.observation}</p>
+              )}
+              <p className={styles.coordinates}>
+                <Icon name="pin" />
+                <span>
+                  {spot.latitude.toFixed(4)}, {spot.longitude.toFixed(4)}
+                </span>
+              </p>
+              <Button
+                type="button"
+                variant="destructive"
+                className={styles.deleteButton}
+                onClick={() => handleDeleteSpot(spot.id)}
+              >
+                <Icon name="trash" />
+                Delete spot
+              </Button>
+            </li>
+          ))}
+        </ul>
+        <NavLink
+          className={`${buttonStyles.button} ${buttonStyles.primary} ${styles.saveLink}`}
+          to="/new-spot"
+        >
+          <Icon name="plus" />
+          Save a spot
+        </NavLink>
+      </MapSheetLayout>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import styles from "./ToastMessage.module.css";
 interface Props {
   onAnimationEnd: () => void;
   isToastExiting: boolean;
@@ -9,7 +10,9 @@ const ToastMessage = ({ children, isToastExiting, onAnimationEnd }: Props) => {
   return (
     <div
       onAnimationEnd={onAnimationEnd}
-      className={`toast ${isToastExiting ? "toast--exit" : ""}`}
+      className={[styles.toast, isToastExiting && styles.exit]
+        .filter(Boolean)
+        .join(" ")}
       role="status"
     >
       {children}

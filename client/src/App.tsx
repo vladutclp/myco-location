@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router";
-import "./App.css";
+import styles from "./pages/RouteMessage.module.css";
 import Layout from "./pages/Layout";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -20,7 +20,15 @@ function App() {
           <Route path="spots" element={<Spots />} />
           <Route path="new-spot" element={<NewSpot />} />
         </Route>
-        <Route path="*" element={<div>Sorry, this route does not exist</div>} />
+        <Route
+          path="*"
+          element={
+            <div className={styles.message}>
+              <h1 className={styles.title}>Page not found</h1>
+              <p>Sorry, this route does not exist</p>
+            </div>
+          }
+        />
       </Routes>
     </Layout>
   );

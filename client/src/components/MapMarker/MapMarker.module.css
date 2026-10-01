@@ -1,0 +1,17 @@
+.marker {
+  background: transparent;
+  border: 0;
+}
+
+.marker svg {
+  width: 100%;
+  height: 100%;
+}
+
+.draft {
+  color: var(--color-chanterelle);
+}
+
+.saved {
+  color: var(--color-trail-forest);
+}

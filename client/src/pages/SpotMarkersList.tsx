@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Marker, Popup, useMap } from "react-leaflet";
 import type { Spots } from "./Spots";
+import { savedMarkerIcon } from "../components/MapMarker/markerIcons";
 
 interface Props {
   spots: Spots[];
@@ -18,6 +19,7 @@ const SpotMarkersList = ({ spots }: Props) => {
       {spots.map((spot) => {
         return (
           <Marker
+            icon={savedMarkerIcon}
             key={spot.id}
             position={{ lat: spot.latitude, lng: spot.longitude }}
           >

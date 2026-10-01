@@ -2,6 +2,12 @@ import { NavLink, useNavigate } from "react-router";
 import { useAuth } from "../store/auth-context";
 import { useState } from "react";
 import { BASE_API } from "../api/config";
+import Button from "../components/Button/Button";
+import Input from "../components/Input/Input";
+import Label from "../components/Label/Label";
+import FormGroup from "../components/FormGroup/FormGroup";
+import PhotoSheetLayout from "../components/PhotoSheetLayout/PhotoSheetLayout";
+import styles from "./AuthForm.module.css";
 
 export type Status = "idle" | "loading" | "success" | "error";
 
@@ -48,8 +54,15 @@ const Login = () => {
   };
 
   return (
-    <div
-      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    <PhotoSheetLayout
+      footer={
+        <p className={styles.hint}>
+          New to MycoLocation?{" "}
+          <NavLink className={styles.hintLink} to={"/register"}>
+            Create an account
+          </NavLink>
+        </p>
+      }
     >
       <form
         onSubmit={async (event) => {
@@ -57,41 +70,45 @@ const Login = () => {
           event.preventDefault();
           await loginUser(Object.fromEntries(data));
         }}
-        className="login-form"
+        className={styles.form}
       >
-        <h1>Sign in into your account</h1>
-        <div className="form-group">
-          <label htmlFor="email">E-mail</label>
-          <input
-            className="input input-error"
+        <div className={styles.header}>
+          <h1 className={styles.title}>Welcome Back</h1>
+          <p className={styles.caption}>YOUR FIELD NOTEBOOK</p>
+        </div>
+        <hr className={styles.divider} />
+        <p className={styles.description}>Sign in to revisit your saved spots</p>
+        <FormGroup>
+          <Label htmlFor="email">Email</Label>
+          <Input
+            placeholder="you@example.com"
             autoFocus
             required
             name="email"
             id="email"
             type="email"
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input required name="password" id="password" type="password" />
-        </div>
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="password">Password</Label>
+          <Input
+            placeholder="At least 6 characters"
+            required
+            name="password"
+            id="password"
+            type="password"
+          />
+        </FormGroup>
         {isError && (
-          <span className="error-message">
+          <span className={styles.error}>
             Something went wrong, please try again
           </span>
         )}
-        <button
-          disabled={isLoading}
-          className={`button button--primary  ${isLoading ? "disabled" : ""}`}
-        >
-          {isLoading ? "Loading..." : "Log In"}
-        </button>
+        <Button disabled={isLoading}>
+          {isLoading ? "Loading..." : "Sign In"}
+        </Button>
       </form>
-      <div>
-        Don't have an account?{" "}
-        <NavLink to={"/register"}>Create an account</NavLink>
-      </div>
-    </div>
+    </PhotoSheetLayout>
   );
 };
 

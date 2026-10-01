@@ -4,3 +4,20 @@ server/.agents/
 server/.claude/
 server/.windsurf/
 .DS_Store
+.agents/
+.impeccable/
+.tastemaker/
+skills-lock.json
+
+# Generated mockup build and intermediate design assets
+client/dist-mockups/
+assets/plates/
+
+# Local environment files and TypeScript build metadata
+.env
+.env.*
+!.env.example
+*.tsbuildinfo
+
+# Local code review report
+docs/code-review.md
