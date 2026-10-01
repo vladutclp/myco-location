@@ -1,0 +1,40 @@
+.toast {
+  position: relative;
+  z-index: var(--layer-toast);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-control);
+  background-color: var(--color-action-primary);
+  color: var(--color-surface);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-caption);
+  line-height: var(--line-height-body);
+  overflow-wrap: anywhere;
+  animation: enter var(--duration-toast) var(--ease-field-feedback);
+}
+
+.exit {
+  animation: exit var(--duration-toast) var(--ease-field-feedback) forwards;
+}
+
+@keyframes enter {
+  from { transform: translateY(12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes exit {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(12px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes enter {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes exit {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+}

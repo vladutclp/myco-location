@@ -1,15 +1,17 @@
-import { type ReactNode, type ComponentPropsWithoutRef } from "react";
-import styles from "./Buton.module.css";
+import type { ComponentPropsWithoutRef } from "react";
+import styles from "./Button.module.css";
 
 interface Props extends ComponentPropsWithoutRef<"button"> {
-  children: ReactNode;
+  variant?: "primary" | "secondary" | "quiet" | "destructive";
 }
 
-const Button = ({ children, className, ...rest }: Props) => {
+const Button = ({ children, className, variant = "primary", ...rest }: Props) => {
   return (
     <button
       {...rest}
-      className={[styles.button, className].filter(Boolean).join(" ")}
+      className={[styles.button, styles[variant], className]
+        .filter(Boolean)
+        .join(" ")}
     >
       {children}
     </button>

@@ -2,6 +2,7 @@
 
 .leaflet-container {
   font: inherit;
+  background-color: var(--color-selection);
 }
 
 .leaflet-container a {
@@ -13,6 +14,38 @@
   min-width: var(--target-min-size);
   min-height: var(--target-min-size);
   line-height: var(--target-min-size);
+  background-color: var(--color-surface);
+  color: var(--color-action-primary);
+}
+
+.leaflet-bar button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+}
+
+.leaflet-bar a:hover,
+.leaflet-bar button:hover {
+  background-color: var(--color-selection);
+  color: var(--color-action-primary-hover);
+}
+
+.leaflet-popup-content-wrapper {
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-control);
+}
+
+.leaflet-popup-tip {
+  background-color: var(--color-surface);
+}
+
+.leaflet-popup-content {
+  line-height: var(--line-height-body);
+  overflow-wrap: anywhere;
 }
 
 .leaflet-container :focus-visible {

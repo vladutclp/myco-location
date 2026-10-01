@@ -1,9 +1,9 @@
 import { type ComponentPropsWithoutRef } from "react";
 import styles from "./Input.module.css";
 
-interface Props extends ComponentPropsWithoutRef<"input"> {}
+type Props = Omit<ComponentPropsWithoutRef<"input">, "children">;
 
-const Input = ({ children, className, ...rest }: Props) => {
+const Input = ({ className, ...rest }: Props) => {
   return (
     <input
       {...rest}

@@ -7,8 +7,8 @@ import FormGroup from "../components/FormGroup/FormGroup";
 import Label from "../components/Label/Label";
 import Input from "../components/Input/Input";
 import Button from "../components/Button/Button";
-import AuthLayout from "../components/AuthLayout/AuthLayout";
-import styles from "../components/AuthLayout/Auth.module.css";
+import PhotoSheetLayout from "../components/PhotoSheetLayout/PhotoSheetLayout";
+import styles from "./AuthForm.module.css";
 
 const Register = () => {
   const { setAuthenticationStatus } = useAuth();
@@ -29,7 +29,16 @@ const Register = () => {
   };
 
   return (
-    <AuthLayout>
+    <PhotoSheetLayout
+      footer={
+        <p className={styles.hint}>
+          Already have an account?{" "}
+          <NavLink className={styles.hintLink} to={"/login"}>
+            Sign In
+          </NavLink>
+        </p>
+      }
+    >
       <form
         onSubmit={async (event) => {
           const data = new FormData(event.target);
@@ -60,9 +69,9 @@ const Register = () => {
         }}
         className={styles.form}
       >
-        <h1 className={styles.formHeader}>Create your account</h1>
-        <hr style={{ width: "100%" }} />
-        <p>Never miss a spot</p>
+        <h1 className={styles.title}>Create your account</h1>
+        <hr className={styles.divider} />
+        <p className={styles.description}>Never miss a spot</p>
         <FormGroup>
           <Label htmlFor="email">E-mail</Label>
           <Input
@@ -86,16 +95,10 @@ const Register = () => {
         </FormGroup>
         <Button disabled={isLoading}>Create account</Button>
         {isError ? (
-          <span className="error-message">Something went wrong</span>
+          <span className={styles.error}>Something went wrong</span>
         ) : null}
       </form>
-      <div className={styles.formHint}>
-        Already have an account?{" "}
-        <NavLink className={styles.formHintLink} to={"/login"}>
-          Sign In
-        </NavLink>
-      </div>
-    </AuthLayout>
+    </PhotoSheetLayout>
   );
 };
 

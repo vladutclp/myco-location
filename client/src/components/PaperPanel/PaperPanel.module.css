@@ -1,0 +1,8 @@
+.panel {
+  position: relative;
+  z-index: var(--layer-content);
+  min-width: 0;
+  padding: var(--space-6) var(--page-gutter);
+  border-radius: var(--sheet-radius, 32px) var(--sheet-radius, 32px) 0 0;
+  background-color: var(--color-canvas);
+}

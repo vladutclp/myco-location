@@ -9,7 +9,7 @@ const Label = ({ children, className, ...props }: Props) => {
   return (
     <label
       {...props}
-      className={[styles.label, className].filter(Boolean).join("")}
+      className={[styles.label, className].filter(Boolean).join(" ")}
     >
       {children}
     </label>

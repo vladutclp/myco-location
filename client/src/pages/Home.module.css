@@ -1,0 +1,47 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-7);
+  min-width: 0;
+}
+
+.actions,
+.notebookActions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.introduction {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.description {
+  max-width: 45ch;
+  color: var(--color-text-secondary);
+}
+
+.privacyNote {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-label);
+}
+
+.welcomeTitle {
+  max-width: 24ch;
+  font-size: var(--font-size-headline);
+  font-weight: var(--font-weight-display);
+  letter-spacing: var(--letter-spacing-headline);
+  line-height: var(--line-height-headline);
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 640px) {
+  .notebookActions {
+    flex-direction: row;
+  }
+
+  .notebookActions > a {
+    flex: 1;
+  }
+}

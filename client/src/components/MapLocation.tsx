@@ -2,6 +2,7 @@ import { LatLng } from "leaflet";
 import { Marker as LeafletMarker } from "leaflet";
 import { useEffect } from "react";
 import { Marker, useMap } from "react-leaflet";
+import { draftMarkerIcon } from "./MapMarker/markerIcons";
 
 export type BasePoint = Pick<LatLng, "lat" | "lng">;
 
@@ -30,6 +31,7 @@ const MapLocation = ({
   return (
     <>
       <Marker
+        icon={draftMarkerIcon}
         draggable
         eventHandlers={{
           dragend: (e) => {

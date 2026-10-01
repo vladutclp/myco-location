@@ -6,8 +6,8 @@ import Button from "../components/Button/Button";
 import Input from "../components/Input/Input";
 import Label from "../components/Label/Label";
 import FormGroup from "../components/FormGroup/FormGroup";
-import AuthLayout from "../components/AuthLayout/AuthLayout";
-import styles from "../components/AuthLayout/Auth.module.css";
+import PhotoSheetLayout from "../components/PhotoSheetLayout/PhotoSheetLayout";
+import styles from "./AuthForm.module.css";
 
 export type Status = "idle" | "loading" | "success" | "error";
 
@@ -54,7 +54,16 @@ const Login = () => {
   };
 
   return (
-    <AuthLayout>
+    <PhotoSheetLayout
+      footer={
+        <p className={styles.hint}>
+          New to MycoLocation?{" "}
+          <NavLink className={styles.hintLink} to={"/register"}>
+            Create an account
+          </NavLink>
+        </p>
+      }
+    >
       <form
         onSubmit={async (event) => {
           const data = new FormData(event.target);
@@ -63,12 +72,12 @@ const Login = () => {
         }}
         className={styles.form}
       >
-        <div>
-          <h1 className={styles.formHeader}>Welcome Back</h1>
-          <p className={styles.formSubheader}>YOUR FIELD NOTEBOOK</p>
+        <div className={styles.header}>
+          <h1 className={styles.title}>Welcome Back</h1>
+          <p className={styles.caption}>YOUR FIELD NOTEBOOK</p>
         </div>
-        <hr style={{ width: "100%" }} />
-        <p>Sign in to revisit your saved spots</p>
+        <hr className={styles.divider} />
+        <p className={styles.description}>Sign in to revisit your saved spots</p>
         <FormGroup>
           <Label htmlFor="email">Email</Label>
           <Input
@@ -91,7 +100,7 @@ const Login = () => {
           />
         </FormGroup>
         {isError && (
-          <span className="error-message">
+          <span className={styles.error}>
             Something went wrong, please try again
           </span>
         )}
@@ -99,13 +108,7 @@ const Login = () => {
           {isLoading ? "Loading..." : "Sign In"}
         </Button>
       </form>
-      <div className={styles.formHint}>
-        New to MycoLocation?{" "}
-        <NavLink className={styles.formHintLink} to={"/register"}>
-          Create an account
-        </NavLink>
-      </div>
-    </AuthLayout>
+    </PhotoSheetLayout>
   );
 };
 

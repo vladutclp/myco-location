@@ -25,9 +25,6 @@
   --color-error: var(--color-danger);
   --color-error-surface: var(--color-danger-wash);
 
-  /* Temporary alias for legacy App.css selectors */
-  --color-primary: var(--color-action-primary);
-
   /* Typography */
   --font-family-display: "Epilogue", Arial, sans-serif;
   --font-family-body: "Nunito Sans", Arial, sans-serif;
