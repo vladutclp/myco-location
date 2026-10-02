@@ -3,7 +3,6 @@ import cors from "cors";
 import morgan from "morgan";
 import "dotenv/config";
 
-import usersRouter from "./routes/userRoutes.ts";
 import authRoutes from "./routes/authRoutes.ts";
 import spotsRoutes from "./routes/spotsRoutes.ts";
 import compression from "compression";
@@ -22,7 +21,6 @@ app.use(cors());
 
 app.use("/api", healthCheckRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/users", usersRouter);
 app.use("/api/spots", spotsRoutes);
 
 export default app;
