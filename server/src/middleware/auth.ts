@@ -1,7 +1,12 @@
 import type { Request, Response, NextFunction } from "express";
+import type { ParamsDictionary } from "express-serve-static-core";
+
 import { verifyToken, type JwtPayload } from "../utils/jwt.ts";
 
-export interface AuthenticatedRequest extends Request {
+export interface AuthenticatedRequest<
+  TBody = unknown,
+  TParams = ParamsDictionary,
+> extends Request<TParams, unknown, TBody> {
   user?: JwtPayload;
 }
 

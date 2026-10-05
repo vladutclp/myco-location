@@ -1,8 +1,16 @@
 import type { Response } from "express";
 import type { AuthenticatedRequest } from "../middleware/auth.ts";
 import prisma from "../../prisma.service.ts";
+import type {
+  CreateSpotBody,
+  SpotParams,
+  UpdateSpotBody,
+} from "../schemas/spot.schema.ts";
 
-export const createSpot = async (req: AuthenticatedRequest, res: Response) => {
+export const createSpot = async (
+  req: AuthenticatedRequest<CreateSpotBody>,
+  res: Response,
+) => {
   try {
     const { title, latitude, longitude, observation } = req.body;
     const userId = req.user!.id;
@@ -39,9 +47,12 @@ export const getAllSpots = async (req: AuthenticatedRequest, res: Response) => {
   }
 };
 
-export const getSpotById = async (req: AuthenticatedRequest, res: Response) => {
+export const getSpotById = async (
+  req: AuthenticatedRequest<unknown, SpotParams>,
+  res: Response,
+) => {
   try {
-    const spotId = req.params.id as string;
+    const spotId = req.params.id;
     const userId = req.user!.id;
 
     //Add some extra validation to param
@@ -50,7 +61,7 @@ export const getSpotById = async (req: AuthenticatedRequest, res: Response) => {
     const spot = await prisma.spot.findFirst({
       where: {
         userId: userId,
-        id: Number(spotId),
+        id: spotId,
       },
     });
 
@@ -68,17 +79,20 @@ export const getSpotById = async (req: AuthenticatedRequest, res: Response) => {
   }
 };
 
-export const updateSpot = async (req: AuthenticatedRequest, res: Response) => {
+export const updateSpot = async (
+  req: AuthenticatedRequest<UpdateSpotBody, SpotParams>,
+  res: Response,
+) => {
   try {
-    const spotId = req.params.id as string;
+    const spotId = req.params.id;
     const userId = req.user!.id;
-    const body = req.body!;
+    const { title, latitude, longitude, observation } = req.body;
     const updatedSpot = await prisma.spot.update({
       where: {
-        id: Number(spotId),
+        id: spotId,
         userId: userId,
       },
-      data: body,
+      data: { title, latitude, longitude, observation },
     });
     return res.status(200).json({ data: updatedSpot });
   } catch (e) {
@@ -88,13 +102,16 @@ export const updateSpot = async (req: AuthenticatedRequest, res: Response) => {
   }
 };
 
-export const deleteSpot = async (req: AuthenticatedRequest, res: Response) => {
+export const deleteSpot = async (
+  req: AuthenticatedRequest<unknown, SpotParams>,
+  res: Response,
+) => {
   try {
-    const deleteSpotParams = req.params.id as string;
+    const spotId = req.params.id;
     const userId = req.user!.id;
     const deletedSpots = await prisma.spot.deleteMany({
       where: {
-        id: Number(deleteSpotParams),
+        id: spotId,
         userId: userId,
       },
     });
