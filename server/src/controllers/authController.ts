@@ -79,6 +79,6 @@ export const loginUser = async (
     }).end;
   } catch (e) {
     console.error("Login error", e);
-    return res.status(500);
+    return res.status(500).json({ message: "Something went wrong" });
   }
 };
