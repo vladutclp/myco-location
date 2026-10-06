@@ -1,15 +1,8 @@
 import { SignJWT, type JWTPayload, jwtVerify } from "jose";
 import { createSecretKey } from "crypto";
+import env from "../../env.ts";
 
-const getJwtToken = () => {
-  const jwtSecret = process.env.JWT_SECRET;
-
-  if (!jwtSecret) {
-    throw new Error("JWT must be passed");
-  }
-
-  return jwtSecret;
-};
+const secretKey = createSecretKey(env.JWT_SECRET, "utf-8");
 
 export interface JwtPayload extends JWTPayload {
   id: number;
@@ -17,18 +10,14 @@ export interface JwtPayload extends JWTPayload {
 }
 
 export const generateToken = (payload: JwtPayload) => {
-  const secretKey = createSecretKey(getJwtToken(), "utf-8");
-
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("7d")
+    .setExpirationTime(env.JWT_EXPIRES_IN)
     .sign(secretKey);
 };
 
 export const verifyToken = async (token: string) => {
-  const secretKey = createSecretKey(getJwtToken(), "utf-8");
-
   const { payload } = await jwtVerify(token, secretKey);
 
   return payload as JwtPayload;

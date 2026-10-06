@@ -1,7 +1,6 @@
-import express, { type Express, type Request, type Response } from "express";
+import express, { type Express } from "express";
 import cors from "cors";
 import morgan from "morgan";
-import "dotenv/config";
 
 import authRoutes from "./routes/authRoutes.ts";
 import spotsRoutes from "./routes/spotsRoutes.ts";
@@ -9,7 +8,6 @@ import compression from "compression";
 import helmet from "helmet";
 import healthCheckRoutes from "./routes/healthCheckRoute.ts";
 
-export const PORT = 8080;
 const app: Express = express();
 
 app.use(compression());
