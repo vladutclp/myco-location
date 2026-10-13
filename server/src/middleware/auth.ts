@@ -25,7 +25,7 @@ export const authenticateToken = async (
 
     req.user = await verifyToken(token);
     return next();
-  } catch (e) {
+  } catch {
     return res.status(403).json({ message: "Something went wrong" });
   }
 };
