@@ -16,8 +16,8 @@ Two independent npm packages, no root `package.json` or workspaces: `client/` (R
 ## Commands
 
 Client (`cd client`):
-- `npm run dev` · `npm run lint` (oxlint) · `npm run build` (`tsc -b && vite build` — this is the typecheck)
-- CI (`.github/workflows/client.js.yml`, Node 24) runs only `npm ci && npm run lint && npm run build` for the client.
+- `npm run dev` · `npm run lint` (oxlint) · `npm run build` (`tsc -b && vite build` — this is the typecheck, test files included) · `npm test` (`vitest run`, runs once; `npx vitest` for watch mode)
+- CI (`.github/workflows/client.js.yml`, Node 24) runs `npm ci && npm run lint && npm run build && npm test` for the client.
 
 Server (`cd server`):
 - `npm run dev` (`tsx watch index.ts`; runs TS directly, no build step)
@@ -31,7 +31,16 @@ Local setup:
 4. `npx tsx scripts/seed.ts`
 5. `npm run dev`
 
-There are no tests and no formatter in either package. Match the existing style (double quotes, semicolons, trailing commas, 2 spaces).
+The server has no tests. Neither package has a formatter. Match the existing style (double quotes, semicolons, trailing commas, 2 spaces).
+
+## Client tests
+
+Vitest + Testing Library (`react`, `user-event`, `jest-dom`) + jsdom + MSW, configured in the `test` block of `client/vite.config.ts`.
+- Test files sit next to their source as `*.test.ts(x)`. Shared test helpers go in `src/test/`.
+- Vitest globals (`describe`, `it`, `expect`, `vi`) are on, but typed only for test code: `tsconfig.test.json` covers `*.test.ts(x)` and `src/test/`, and `tsconfig.app.json` excludes them. Test-only code anywhere else is typechecked without the globals.
+- `src/test/setup.ts` runs before every test file. It starts the MSW server (`src/test/server.ts`) with unhandled requests as errors, and after each test resets handlers and clears sessionStorage. Mock requests per test with `server.use(...)`.
+- Render through `customRender` (`src/test/utils.tsx`), which wraps the UI in `<MemoryRouter useTransitions={false}>` and `AuthProvider`.
+- `test.env` in `vite.config.ts` sets `VITE_API_BASE_URL` for tests.
 
 ## Environment
 
@@ -57,13 +66,15 @@ There are no tests and no formatter in either package. Match the existing style 
 
 ## Repertoire workflows
 
-- Before claiming done, use `repertoire:verification-gate` with `cd client && npm run lint && npm run build` and/or `cd server && npm run lint && npx tsc`.
+- Before claiming done, use `repertoire:verification-gate` with `cd client && npm run lint && npm run build && npm test` and/or `cd server && npm run lint && npx tsc`.
 - For bugs, use `repertoire:debugging-protocol` to reproduce and find the root cause, then explain it and let me write the fix and the test (per "Working with me").
 - For `FS-` work or changes spanning both packages, use `repertoire:plan-writer` (with `repertoire:scout`) before coding.
-- Before opening a PR, run `repertoire:antagonist` (security lens for auth/spot changes) — there are no tests to catch regressions.
+- Before opening a PR, run `repertoire:antagonist` (security lens for auth/spot changes) — the server has no tests and client test coverage is still thin.
 - When committing or writing a PR, use `repertoire:commit-and-pr-author` with the Git conventions above.
 
 ## Gotchas
 
 - `server/scripts/seed.ts` inserts passwords unhashed, so seeded users can't log in through `/api/auth/login`.
 - `server/prisma.config.ts` and `scripts/seed.ts` read `process.env.DATABASE_URL` directly (they run outside the app, so `env.ts` validation doesn't apply).
+- MSW is v3: the unhandled-request option is `onUnhandledFrame`. Most docs and tutorials still show v2's `onUnhandledRequest`, which v3's types reject.
+- `checker()` in `client/vite.config.ts` runs only when `command === "serve" && mode !== "test"`. Vitest also starts Vite with `command: "serve"`, so dropping the `mode` check runs a full typecheck inside every test run.
