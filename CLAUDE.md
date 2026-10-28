@@ -16,7 +16,7 @@ Two independent npm packages, no root `package.json` or workspaces: `client/` (R
 ## Commands
 
 Client (`cd client`):
-- `npm run dev` · `npm run lint` (oxlint) · `npm run build` (`tsc -b && vite build` — this is the typecheck, test files included) · `npm test` (`vitest run`, runs once; `npx vitest` for watch mode)
+- `npm run dev` (port 5173 with `strictPort`; exits if the port is busy, because the server's planned `CORS_ORIGIN` defaults to `http://localhost:5173`) · `npm run lint` (oxlint) · `npm run build` (`tsc -b && vite build` — this is the typecheck, test files included) · `npm test` (`vitest run`, runs once; `npx vitest` for watch mode)
 - CI (`.github/workflows/client.js.yml`, Node 24) runs `npm ci && npm run lint && npm run build && npm test` for the client.
 
 Server (`cd server`):
@@ -40,12 +40,13 @@ Vitest + Testing Library (`react`, `user-event`, `jest-dom`) + jsdom + MSW, conf
 - Vitest globals (`describe`, `it`, `expect`, `vi`) are on, but typed only for test code: `tsconfig.test.json` covers `*.test.ts(x)` and `src/test/`, and `tsconfig.app.json` excludes them. Test-only code anywhere else is typechecked without the globals.
 - `src/test/setup.ts` runs before every test file. It starts the MSW server (`src/test/server.ts`) with unhandled requests as errors, and after each test resets handlers and clears sessionStorage. Mock requests per test with `server.use(...)`.
 - Render through `customRender` (`src/test/utils.tsx`), which wraps the UI in `<MemoryRouter useTransitions={false}>` and `AuthProvider`.
-- `test.env` in `vite.config.ts` sets `VITE_API_BASE_URL` for tests.
+- `test.env` in `vite.config.ts` sets `VITE_API_BASE_URL` for tests. Without it, importing anything that reaches `src/api/config.ts` throws at import time.
 
 ## Environment
 
 - Server env is validated with zod in `server/env.ts` at import time; the process exits on invalid config. Always import `env` from `env.ts`, never read `process.env` directly. Required: `DATABASE_URL` (postgres URL), `JWT_SECRET` (≥32 chars). `JWT_EXPIRES_IN` accepts only `"7d"`.
-- Client uses only `VITE_API_BASE_URL` (`client/src/api/config.ts`).
+- Client uses only `VITE_API_BASE_URL`, set in `client/.env` (gitignored; there is no `.env.example`). `parseApiBaseUrl` in `client/src/api/config.ts` validates it when the module loads: it must be an absolute `http(s)` URL, trailing slashes are stripped, and anything else throws `VITE_API_BASE_URL is missing or invalid`. Build request URLs as `${BASE_API}/path`.
+- Adding a client env var means declaring it in `ImportMetaEnv` in `client/src/vite-env.d.ts`. `strictImportMetaEnv` makes undeclared `import.meta.env` keys a type error. `vite/client` types come from `tsconfig.app.json` `types`, so that file has no `/// <reference>`. Keep it free of `import`/`export`, or its interfaces stop merging with Vite's global ones.
 - Adding a server env var means adding it to the schema in `env.ts`.
 
 ## Conventions

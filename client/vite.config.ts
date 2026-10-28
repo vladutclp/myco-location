@@ -16,4 +16,8 @@ export default defineConfig(({ command, mode }) => ({
     env: { VITE_API_BASE_URL: "http://localhost:8080/api" },
     globals: true,
   },
+  server: {
+    port: 5173,
+    strictPort: true,
+  },
 }));
