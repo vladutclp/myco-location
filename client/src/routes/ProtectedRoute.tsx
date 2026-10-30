@@ -4,7 +4,6 @@ import styles from "../pages/RouteMessage.module.css";
 
 const ProtectedRoute = () => {
   const { authStatus } = useAuth();
-  console.log("isLogg ", authStatus);
   if (authStatus === "loading") {
     return <p className={styles.message}>Loading...</p>;
   }

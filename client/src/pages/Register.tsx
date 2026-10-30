@@ -52,7 +52,6 @@ const Register = () => {
               return body;
             })
             .then((data) => {
-              console.log("parsed data: ", data);
               if ("token" in data && data.token !== undefined) {
                 sessionStorage.setItem("token", data.token);
                 setAuthenticationStatus("authenticated");

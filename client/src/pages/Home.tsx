@@ -8,7 +8,6 @@ import styles from "./Home.module.css";
 
 const Home = () => {
   const { authStatus } = useAuth();
-  console.log("isLoggedIn: ", authStatus);
   return authStatus === "authenticated" ? (
     <PhotoSheetLayout>
       <div className={styles.content}>

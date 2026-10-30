@@ -21,7 +21,6 @@ const MapLocation = ({
 
   useEffect(() => {
     map.locate().on("locationfound", (e) => {
-      console.log(e.latlng);
       setPinPosition(e.latlng);
       setUserLocation(e.latlng);
       map.flyTo(e.latlng, map.getZoom(), { duration: 0.5, animate: true });
@@ -38,7 +37,6 @@ const MapLocation = ({
             const marker = e.target;
 
             if (marker instanceof LeafletMarker) {
-              console.log("user ended dragging at: ", marker.getLatLng());
               setPinPosition(marker.getLatLng());
             }
           },
